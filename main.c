@@ -44,10 +44,9 @@ void	ctrl_d(char *input)
 int	main(int ac, char **av, char **env)
 {
 	char	*input;
-	char	**commands;
 
 	init_app(env);
-	while (ac && av)
+	while (ac == 1 && av)
 	{
 		g_ms.ignore = FALSE;
 		signal(SIGINT, &ctrl_c);
@@ -56,7 +55,6 @@ int	main(int ac, char **av, char **env)
 		input = readline("minishell_> ");
 		write(1, "\033[0m", 4);
 		ctrl_d(input);
-		commands = ft_split(input, ';');
 		if (g_ms.ignore)
 		{
 			free(input);
@@ -64,12 +62,8 @@ int	main(int ac, char **av, char **env)
 		}
 		if (*input)
 		{
-			while(*commands)
-			{
-				init_shell(*commands);
-				add_history(input);
-				commands++;
-			}
+			init_shell(input);
+			add_history(input);
 		}
 		free(input);
 	}

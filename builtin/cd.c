@@ -1,32 +1,35 @@
 
 #include "../minishell.h"
 
-int find_env(char *type)
+void	change_pwd(char **env, char *pwd, char *type)
 {
-    int i = 0;
-	char **env;
-	env = g_ms.env;
-    while(ft_strncmp(env[i], type, ft_strlen(type)) != 0)
+	int		i;
+	char	*new_env;
+
+	i = 0;
+	while (env[i])
 	{
-        i++;
+		if (ft_strncmp(env[i], type, ft_strlen(type)) == 0)
+		{
+			new_env = malloc(ft_strlen(pwd) + ft_strlen(type) + 1);
+			if (new_env)
+			{
+				ft_strcpy(new_env, type);
+				ft_strcat(new_env, pwd);
+				free(pwd);
+				free(env[i]);
+				env[i] = new_env;
+			}
+			break ;
+		}
+		i++;
 	}
-	return (i);
 }
 
 void	set_pwd()
 {
-	char *old_pwd;
-	int old_pwd_idx;
-	int pwd_idx;
-
-	old_pwd_idx = find_env("OLDPWD");
-	pwd_idx = find_env("PWD");
-	old_pwd = ft_strdup(g_ms.env[pwd_idx]);
-
-	free(g_ms.env[pwd_idx]);
-	free(g_ms.env[old_pwd_idx]);
-	g_ms.env[pwd_idx] = ft_strjoin("PWD=", getcwd((void *)0, 0));
-	g_ms.env[old_pwd_idx] = ft_strjoin("OLDPWD=", old_pwd + 4);
+	change_pwd(g_ms.env, get_env("PWD"), "OLDPWD=");
+	change_pwd(g_ms.env, getcwd(NULL, 0), "PWD=");
 }
 
 void	builtin_cd(char **input)

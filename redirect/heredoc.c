@@ -23,7 +23,7 @@ void	heredoc(int *fd, char *endline)
 	while (1)
 	{
 		signal(SIGINT, &close_heredoc);
-		input = readline("heredoc>> ");
+		input = readline("> ");
 		if (!input || ft_strcmp(input, endline) || g_ms.ignore)
 		{
 			free(input);

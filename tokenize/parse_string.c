@@ -1,39 +1,5 @@
 #include "../minishell.h"
 
-
-int     count_quote(char *str, char type)
-{
-    int count = 0;
-    while(*str)
-    {
-        if(*str == type)
-            count++;
-        str++;
-    }
-    return (count);
-}
-
-void	close_quote(int sig)
-{
-	(void)sig;
-	g_ms.ignore = TRUE;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-}
-
-void	control_quote(char **str)
-{
-	if(count_quote(*str, DOUBLE_QUOTE) % 2 != 0 || count_quote(*str, SINGLE_QUOTE) % 2 != 0)
-	{
-		while(1)
-		{
-			signal(SIGINT, &close_quote);
-			readline(">");
-			if (g_ms.ignore)
-				break ;
-		}
-	}
-}
-
 void	find_end_pos(char **str, char type)
 {
 	(*str)++;
@@ -79,7 +45,6 @@ void	parse_token_string(char **str)
 	char	*token_str;
 
 	skip_whitespace(str, &head);
-	control_quote(str);
 	if (**str && **str == DOUBLE_QUOTE)
 		find_end_pos(str, DOUBLE_QUOTE);
 	else if (**str && **str == SINGLE_QUOTE)
