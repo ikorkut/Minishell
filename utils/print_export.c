@@ -1,13 +1,13 @@
 #include "../minishell.h"
 
-void	builtin_env(void)
+void	print_export(void)
 {
 	char	**env;
 
 	env = g_ms.env;
 	while (*env)
 	{
-		printf("%s\n", *env);
+		printf("declare -x %s\n", *env);
 		env++;
 	}
 	if (!is_parent())

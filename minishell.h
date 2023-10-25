@@ -90,6 +90,7 @@ void		builtin_env(void);
 char		*dollar(char *str);
 void		free_process(void);
 void		close_all_fd(void);
+void		print_export(void);
 char		*get_env(char *str);
 t_process	*init_process(void);
 void		token_err(int type);
@@ -122,6 +123,8 @@ void		parse_token_string(char **str);
 void		heredoc(int *fd, char *endline);
 char		*ft_strchr(const char *s, int c);
 void		run_redirects(t_process *process);
+char		*ft_strcpy(char *dest, char *src);
+char		*ft_strcat(char *dest, char *src);
 void		get_all_inputs(t_process *process);
 void		set_all_outputs(t_process *process);
 int			contain_heredoc(t_process *process);
@@ -136,7 +139,5 @@ int			ft_strncmp(const char *str1, const char *str2, size_t n);
 char		*ft_substr(char const *str, unsigned int start, size_t len);
 int			token_addback(t_token **token, t_token *new_token, int plus);
 void		process_addback(t_process **process, t_process *new_process);
-char	*ft_strcpy(char *dest, char *src);
-char	*ft_strcat(char *dest, char *src);
 
 #endif

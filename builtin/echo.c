@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 void	put_char(char *input)

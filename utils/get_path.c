@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 void	check_dir(char *cmd)

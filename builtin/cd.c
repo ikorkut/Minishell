@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 void	change_pwd(char **env, char *pwd, char *type)
@@ -26,7 +25,7 @@ void	change_pwd(char **env, char *pwd, char *type)
 	}
 }
 
-void	set_pwd()
+void	set_pwd(void)
 {
 	change_pwd(g_ms.env, get_env("PWD"), "OLDPWD=");
 	change_pwd(g_ms.env, getcwd(NULL, 0), "PWD=");
@@ -36,26 +35,27 @@ void	builtin_cd(char **input)
 {
 	char	*home;
 
-	if (input[1] != NULL)
+	if (input[1] == NULL || ft_strchr(input[1], '~'))
 	{
-		if (chdir(input[1]) != 0) {
-			errno = 1;
-			write(2, "minishell : No such file or directory\n", 38);
-			strerror(errno); 
+		home = getenv("HOME");
+		if (home && *home)
+		{
+			if (chdir(home))
+				perror("minishell ");
 		}
 	}
 	else
 	{
-		home = getenv("HOME");
-		if (home && *home) {
-			if (chdir(home)) {
-				perror("minishell ");
-			}
+		if (chdir(input[1]) != 0)
+		{
+			errno = 1;
+			write(2, "minishell : No such file or directory\n", 38);
+			strerror(errno);
 		}
 	}
 	set_pwd();
-	if (!is_parent()) {
+	if (!is_parent())
+	{
 		exit (errno);
 	}
 }
-

@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	ft_atoi(const char *str)
@@ -10,8 +9,8 @@ int	ft_atoi(const char *str)
 	i = 0;
 	neg = 1;
 	num = 0;
-	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' || str[i] == '\v' \
-	|| str[i] == '\f' || str[i] == '\r')
+	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' \
+	|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{

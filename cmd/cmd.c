@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 void	get_builtin(t_process *process)

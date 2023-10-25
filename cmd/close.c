@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 void	close_heredoc_fd(t_process *process)

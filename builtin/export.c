@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	env_len(void)
@@ -72,30 +71,14 @@ int	is_include(char *str)
 	return (-1);
 }
 
-void	print_export(void)
-{
-	char	**env;
-
-	env = g_ms.env;
-	while (*env)
-	{
-		printf("declare -x %s\n", *env);
-		env++;
-	}
-	if (!is_parent())
-		exit (EXIT_SUCCESS);
-}
-
 void	builtin_export(char **input)
 {
 	int		pos;
 	char	*tmp;
 
 	input++;
-	if(!*input)
-	{
+	if (!*input)
 		print_export();
-	}
 	while (*input)
 	{
 		if (check_env(*input))

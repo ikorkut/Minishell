@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 t_minishell	g_ms;

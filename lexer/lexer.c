@@ -1,5 +1,11 @@
 #include "../minishell.h"
 
+void	free_lexer(void)
+{
+	free_token();
+	free_process();
+}
+
 int	append_arguments(t_token **token, t_process *process)
 {
 	char		*data;
@@ -20,13 +26,31 @@ int	append_arguments(t_token **token, t_process *process)
 				token_err(0);
 			else
 				token_err((*token)->type);
-			free_token();
+			free_lexer();
 			return (FALSE);
 		}
 		data = clean_quote((*token)->str);
 		process->redirects = push_array(process->redirects, data);
 	}
 	return (TRUE);
+}
+
+int	pipe_control(void)
+{
+	t_token		*token;
+
+	token = g_ms.token;
+	if (token->type == PIPE && token->prev == NULL)
+	{
+		token_err(PIPE);
+		return (0);
+	}
+	if (!token)
+	{
+		token_err(PIPE);
+		return (0);
+	}
+	return (1);
 }
 
 int	lexer(void)
@@ -37,11 +61,8 @@ int	lexer(void)
 	token = g_ms.token;
 	while (token)
 	{
-		if ((token->type == PIPE && token->prev == NULL))
-		{
-			token_err(PIPE);
+		if (!pipe_control())
 			break ;
-		}
 		if (token->type == PIPE || token->prev == NULL)
 		{
 			if (token->type == PIPE)
@@ -50,11 +71,8 @@ int	lexer(void)
 			process_addback(&g_ms.process, process);
 			g_ms.process_count++;
 		}
-		if (!token)
-		{
-			token_err(PIPE);
+		if (!pipe_control())
 			break ;
-		}
 		if (!append_arguments(&token, process))
 			return (FALSE);
 		if (token)

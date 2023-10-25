@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 char	*split_env(char *str)

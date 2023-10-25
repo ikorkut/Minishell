@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 void	output(char *file, int mode)

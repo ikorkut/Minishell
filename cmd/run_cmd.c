@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 void	pipe_route(t_process *process)

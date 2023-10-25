@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	contain_heredoc(t_process *process)

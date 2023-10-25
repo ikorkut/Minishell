@@ -1,4 +1,3 @@
-
 #include "../minishell.h"
 
 int	ft_get_arg_count(char **input)
