@@ -4,7 +4,6 @@ t_minishell	g_ms;
 
 void	init_app(char **env)
 {
-	errno = 0;
 	g_ms.paths = NULL;
 	g_ms.parent_pid = getpid();
 	set_env(env);
@@ -26,6 +25,7 @@ void	init_shell(char *input)
 void	ctrl_c(int sig)
 {
 	(void)sig;
+	g_ms.check_flag = 1;
 	g_ms.ignore = TRUE;
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 	write(1, "\033[A", 3);
@@ -47,9 +47,16 @@ int	main(int ac, char **av, char **env)
 	init_app(env);
 	while (ac == 1 && av)
 	{
+		if (g_ms.check_flag == 1){
+			errno = 4;	
+		}
 		g_ms.ignore = FALSE;
 		signal(SIGINT, &ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
+		if (g_ms.check_flag == 1){
+			errno = 1;
+			g_ms.check_flag = 0;
+		}
 		write(1, "\033[95m", 5);
 		input = readline("minishell_> ");
 		write(1, "\033[0m", 4);
