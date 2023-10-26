@@ -39,6 +39,7 @@ void	builtin_exit(char **input)
 				errno = 1;
 				return ;
 			}
+			printf("exit\n");
 			exit(ft_atoi(input[1]) % 256);
 		}
 		write(2, "exit\nminishell: exit: numeric argument required\n", 48);
