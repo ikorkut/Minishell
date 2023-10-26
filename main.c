@@ -50,7 +50,7 @@ int	main(int ac, char **av, char **env)
 		g_ms.ignore = FALSE;
 		signal(SIGINT, &ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
-		write(1, "\033[32m", 5);
+		write(1, "\033[95m", 5);
 		input = readline("minishell_> ");
 		write(1, "\033[0m", 4);
 		ctrl_d(input);
