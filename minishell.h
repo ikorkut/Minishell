@@ -66,6 +66,7 @@ typedef struct s_process
 
 typedef struct s_minishell
 {
+	int			check_flag;
 	int			parent_pid;
 	int			process_count;
 	int			ignore;
