@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   check_flag.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 20:39:03 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/26 20:39:04 by egokeri          ###   ########.fr       */
+/*   Created: 2023/10/27 12:40:41 by egokeri           #+#    #+#             */
+/*   Updated: 2023/10/27 12:45:03 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+void	check_flag(void)
 {
-	if (!s1 || !s2)
-		return (FALSE);
-	while (*s1 || *s2)
+	if (g_ms.check_flag == 1)
+		errno = 4;
+	if (g_ms.check_flag == 1)
 	{
-		if (*s1 != *s2)
-			return (FALSE);
-		s1++;
-		s2++;
+		errno = 1;
+		g_ms.check_flag = 0;
 	}
-	return (TRUE);
 }

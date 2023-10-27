@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/26 20:40:50 by egokeri           #+#    #+#             */
+/*   Updated: 2023/10/27 13:08:50 by egokeri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_minishell	g_ms;
@@ -47,19 +59,12 @@ int	main(int ac, char **av, char **env)
 	init_app(env);
 	while (ac == 1 && av)
 	{
-		if (g_ms.check_flag == 1){
-			errno = 4;	
-		}
+		check_flag();
 		g_ms.ignore = FALSE;
 		signal(SIGINT, &ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
-		if (g_ms.check_flag == 1){
-			errno = 1;
-			g_ms.check_flag = 0;
-		}
-		write(1, "\033[95m", 5);
-		input = readline("minishell_> ");
-		write(1, "\033[0m", 4);
+		check_flag();
+		input = get_input();
 		ctrl_d(input);
 		if (g_ms.ignore)
 		{

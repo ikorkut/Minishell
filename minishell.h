@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/26 20:40:55 by egokeri           #+#    #+#             */
+/*   Updated: 2023/10/27 12:49:41 by egokeri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include <stdio.h>
@@ -85,6 +97,8 @@ void		start_cmd(void);
 void		set_paths(void);
 char		*ft_itoa(int n);
 void		free_token(void);
+void		check_flag(void);
+char		*get_input(void);
 void		builtin_pwd(void);
 void		input(char *file);
 void		builtin_env(void);
