@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ikorkut <ikorkut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:37:57 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/26 20:37:58 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/10/27 19:09:43 by ikorkut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,15 @@ int	append_arguments(t_token **token, t_process *process)
 	return (TRUE);
 }
 
-int	pipe_control(void)
+int		while_loop(t_token *token, t_process *process)
 {
-	t_token		*token;
-
-	token = g_ms.token;
-	if (token->type == PIPE && token->prev == NULL)
-	{
-		token_err(PIPE);
-		return (0);
-	}
-	if (!token)
-	{
-		token_err(PIPE);
-		return (0);
-	}
-	return (1);
-}
-
-int	lexer(void)
-{
-	t_token		*token;
-	t_process	*process;
-
-	token = g_ms.token;
 	while (token)
 	{
-		if (!pipe_control())
+		if (token->type == PIPE && token->prev == NULL)
+		{
+			token_err(PIPE);
 			break ;
+		}
 		if (token->type == PIPE || token->prev == NULL)
 		{
 			if (token->type == PIPE)
@@ -83,13 +64,30 @@ int	lexer(void)
 			process_addback(&g_ms.process, process);
 			g_ms.process_count++;
 		}
-		if (!pipe_control())
+		if (!token)
+		{
+			token_err(PIPE);
 			break ;
+		}
 		if (!append_arguments(&token, process))
 			return (FALSE);
 		if (token)
 			token = token->next;
 	}
+	return (TRUE);
+}
+
+int	lexer(void)
+{
+	t_token		*token;
+	t_process	*process;
+	int			err;
+
+	process = NULL;
+	token = g_ms.token;
+	err = while_loop(token, process);
+	if (err == FALSE)
+		return (FALSE);
 	free_token();
 	return (TRUE);
 }
