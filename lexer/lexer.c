@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikorkut <ikorkut@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:37:57 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/27 19:09:43 by ikorkut          ###   ########.fr       */
+/*   Updated: 2023/10/28 14:39:30 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	append_arguments(t_token **token, t_process *process)
 	return (TRUE);
 }
 
-int		while_loop(t_token *token, t_process *process)
+void	new_process(t_token *token, t_process *process)
 {
 	while (token)
 	{
@@ -70,24 +70,20 @@ int		while_loop(t_token *token, t_process *process)
 			break ;
 		}
 		if (!append_arguments(&token, process))
-			return (FALSE);
+			return ;
 		if (token)
 			token = token->next;
 	}
-	return (TRUE);
 }
 
 int	lexer(void)
 {
 	t_token		*token;
 	t_process	*process;
-	int			err;
 
 	process = NULL;
 	token = g_ms.token;
-	err = while_loop(token, process);
-	if (err == FALSE)
-		return (FALSE);
+	new_process(token, process);
 	free_token();
 	return (TRUE);
 }
