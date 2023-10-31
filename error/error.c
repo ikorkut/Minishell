@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikorkut <ikorkut@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:37:30 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/27 15:07:33 by ikorkut          ###   ########.fr       */
+/*   Updated: 2023/10/29 17:30:04 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	command_err(char *str)
 	write(2, "minishell: ", 11);
 	write(2, str, ft_strlen(str));
 	write(2, ": command not found\n", 20);
-	if (!is_parent())
+	if (is_child())
 		exit(errno);
 }
 
@@ -50,7 +50,7 @@ void	directory_err(char *str)
 	write(2, "minishell: ", 11);
 	write(2, str, ft_strlen(str));
 	write(2, ": is a directory\n", 17);
-	if (!is_parent())
+	if (is_child())
 		exit(errno);
 }
 
@@ -63,6 +63,6 @@ void	no_file_err(char *str)
 	write(2, "minishell: ", 11);
 	write(2, str, ft_strlen(str));
 	write(2, ": No such file or directory\n", 28);
-	if (!is_parent())
+	if (is_child())
 		exit(errno);
 }

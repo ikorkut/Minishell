@@ -6,7 +6,7 @@
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:37:57 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/28 14:39:30 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/10/29 16:20:09 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	append_arguments(t_token **token, t_process *process)
 	return (TRUE);
 }
 
-void	new_process(t_token *token, t_process *process)
+int	new_process(t_token *token, t_process *process)
 {
 	while (token)
 	{
@@ -70,20 +70,23 @@ void	new_process(t_token *token, t_process *process)
 			break ;
 		}
 		if (!append_arguments(&token, process))
-			return ;
-		if (token)
-			token = token->next;
+			return (FALSE);
+		token = token->next;
 	}
+	return (TRUE);
 }
 
 int	lexer(void)
 {
 	t_token		*token;
 	t_process	*process;
+	int			err;
 
 	process = NULL;
 	token = g_ms.token;
-	new_process(token, process);
+	err = new_process(token, process);
+	if (err == FALSE)
+		return (FALSE);
 	free_token();
 	return (TRUE);
 }

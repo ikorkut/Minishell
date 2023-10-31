@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output.c                                           :+:      :+:    :+:   */
+/*   set_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 20:38:15 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/29 17:30:32 by egokeri          ###   ########.fr       */
+/*   Created: 2023/10/31 11:29:33 by egokeri           #+#    #+#             */
+/*   Updated: 2023/10/31 12:06:27 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	output(char *file, int mode)
+void	set_export(char **env)
 {
-	int		fd;
+	size_t	i;
+	size_t	len;
+	char	**head;
 
-	fd = 0;
-	if (mode == REPLACE)
-		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	else if (mode == APPEND)
-		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
-	if (fd == -1)
-	{
-		perror("minishell");
-		if (!is_child())
-			return ;
-		else
-			exit(errno);
-	}
-	dup2(fd, 1);
-	close(fd);
+	head = env;
+	while (*head)
+		head++;
+	len = head - env;
+	g_ms.export = ft_calloc(sizeof(char **), len + 1);
+	i = -1;
+	while (++i < len)
+		g_ms.export[i] = ft_strdup(env[i]);
 }

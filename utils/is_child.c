@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_parent.c                                        :+:      :+:    :+:   */
+/*   is_child.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 20:40:06 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/26 20:40:07 by egokeri          ###   ########.fr       */
+/*   Created: 2023/10/29 17:07:33 by egokeri           #+#    #+#             */
+/*   Updated: 2023/10/29 17:34:55 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_parent(void)
+int	is_child(void)
 {
-	return (g_ms.parent_pid == getpid());
+	return (g_ms.child_pid == child_process());
 }

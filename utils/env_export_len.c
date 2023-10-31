@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output.c                                           :+:      :+:    :+:   */
+/*   env_export_len.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 20:38:15 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/29 17:30:32 by egokeri          ###   ########.fr       */
+/*   Created: 2023/10/31 12:46:43 by egokeri           #+#    #+#             */
+/*   Updated: 2023/10/31 12:47:59 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	output(char *file, int mode)
+int	env_len(void)
 {
-	int		fd;
+	char	**env;
 
-	fd = 0;
-	if (mode == REPLACE)
-		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	else if (mode == APPEND)
-		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
-	if (fd == -1)
-	{
-		perror("minishell");
-		if (!is_child())
-			return ;
-		else
-			exit(errno);
-	}
-	dup2(fd, 1);
-	close(fd);
+	env = g_ms.env;
+	while (*env)
+		env++;
+	return (env - g_ms.env);
+}
+
+int	export_len(void)
+{
+	char	**export;
+
+	export = g_ms.export;
+	while (*export)
+		export++;
+	return (export - g_ms.export);
 }

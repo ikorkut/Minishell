@@ -6,7 +6,7 @@
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:40:55 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/27 12:49:41 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/10/31 13:26:02 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,11 @@ typedef struct s_process
 typedef struct s_minishell
 {
 	int			check_flag;
-	int			parent_pid;
+	int			child_pid;
 	int			process_count;
 	int			ignore;
 	char		**env;
+	char		**export;
 	char		**paths;
 	t_token		*token;
 	t_process	*process;
@@ -92,10 +93,11 @@ extern t_minishell	g_ms;
 
 int			lexer(void);
 int			env_len(void);
-int			is_parent(void);
+int			is_child(void);
 void		start_cmd(void);
 void		set_paths(void);
 char		*ft_itoa(int n);
+int			export_len(void);
 void		free_token(void);
 void		check_flag(void);
 char		*get_input(void);
@@ -106,18 +108,24 @@ char		*dollar(char *str);
 void		free_process(void);
 void		close_all_fd(void);
 void		print_export(void);
+void		add_env(char *str);
 char		*get_env(char *str);
 t_process	*init_process(void);
+int			child_process(void);
 void		token_err(int type);
 void		tokenize(char *str);
 void		set_env(char **env);
 char		*get_path(char *cmd);
+int			check_env(char *str);
 int			is_whitespace(char c);
+void		add_export(char *str);
 void		command_err(char *str);
 void		free_array(char **arr);
+void		set_export(char **env);
 void		no_file_err(char *str);
 int			is_operator(char *str);
 void		fill_all_heredoc(void);
+int			check_export(char *str);
 int			check_dollar(char *str);
 char		*clean_quote(char *str);
 int			ft_atoi(const char *str);
@@ -125,6 +133,7 @@ void		directory_err(char *str);
 size_t		ft_strlen(const char *s);
 void		builtin_cd(char **input);
 int			is_builtin(char *command);
+int			is_include_env(char *str);
 void		builtin_exit(char **input);
 void		builtin_echo(char **input);
 char		*parse_dollar_op(char *str);
@@ -132,17 +141,21 @@ char		*ft_strdup(const char *str);
 void		builtin_unset(char **input);
 void		run_builtin(char **execute);
 void		run_cmd(t_process *process);
+int			is_include_export(char *str);
 void		output(char *file, int mode);
 void		builtin_export(char **input);
+void		swap_env(int pos, char *input);
 void		parse_token_string(char **str);
 void		heredoc(int *fd, char *endline);
 char		*ft_strchr(const char *s, int c);
 void		run_redirects(t_process *process);
 char		*ft_strcpy(char *dest, char *src);
 char		*ft_strcat(char *dest, char *src);
+void		swap_export(int pos, char *input);
 void		get_all_inputs(t_process *process);
 void		set_all_outputs(t_process *process);
 int			contain_heredoc(t_process *process);
+int			export_pos(char *str, char *export);
 char		**ft_split(char const *str, char c);
 void		*ft_calloc(size_t count, size_t size);
 char		**push_array(char **arg_arr, char *str);

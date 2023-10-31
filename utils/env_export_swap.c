@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output.c                                           :+:      :+:    :+:   */
+/*   env_export_swap.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/26 20:38:15 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/29 17:30:32 by egokeri          ###   ########.fr       */
+/*   Created: 2023/10/31 12:46:46 by egokeri           #+#    #+#             */
+/*   Updated: 2023/10/31 12:47:38 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	output(char *file, int mode)
+void	swap_export(int pos, char *input)
 {
-	int		fd;
+	char	*temp;
 
-	fd = 0;
-	if (mode == REPLACE)
-		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	else if (mode == APPEND)
-		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0777);
-	if (fd == -1)
-	{
-		perror("minishell");
-		if (!is_child())
-			return ;
-		else
-			exit(errno);
-	}
-	dup2(fd, 1);
-	close(fd);
+	temp = g_ms.export[pos];
+	g_ms.export[pos] = ft_strdup(input);
+	free(temp);
+}
+
+void	swap_env(int pos, char *input)
+{
+	char	*temp;
+
+	temp = g_ms.env[pos];
+	g_ms.env[pos] = ft_strdup(input);
+	free(temp);
 }

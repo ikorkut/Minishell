@@ -6,7 +6,7 @@
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:40:50 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/27 13:08:50 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/10/29 21:36:31 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@ t_minishell	g_ms;
 void	init_app(char **env)
 {
 	g_ms.paths = NULL;
-	g_ms.parent_pid = getpid();
+	g_ms.child_pid = child_process();
 	set_env(env);
+	set_export(env);
 	set_paths();
 }
 

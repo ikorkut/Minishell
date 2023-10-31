@@ -6,7 +6,7 @@
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:36:50 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/26 20:36:51 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/10/29 18:59:09 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,25 @@ void	put_char(char *input)
 int	skip_flag(char **str)
 {
 	int	i;
+	int	j;
 
 	i = 1;
+	j = 1;
 	while (str[i])
 	{
-		if (ft_strcmp(str[i], "-n"))
-			i++;
+		if (str[i][0] == '-' && str[i][1] == 'n')
+		{
+			while (str[1][j])
+			{
+				if (str[1][j] == 'n')
+					j++;
+				else
+					return (1);
+			}
+		}
 		else
 			break ;
+		i++;
 	}
 	return (i);
 }
@@ -58,6 +69,6 @@ void	builtin_echo(char **input)
 	}
 	if (flag)
 		write(STDOUT_FILENO, "\n", 1);
-	if (!is_parent())
+	if (is_child())
 		exit(EXIT_SUCCESS);
 }

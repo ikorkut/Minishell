@@ -6,38 +6,47 @@
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:37:04 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/26 20:37:05 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/10/31 12:50:21 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	env_len(void)
+void	add_export(char *str)
 {
-	char	**env;
+	int		i;
+	char	**export;
+	char	**new_export;
 
-	env = g_ms.env;
-	while (*env)
-		env++;
-	return (env - g_ms.env);
+	i = 0;
+	export = g_ms.export;
+	new_export = ft_calloc(sizeof(char **), export_len() + 2);
+	while (export[i])
+	{
+		new_export[i] = ft_strdup(export[i]);
+		i++;
+	}
+	new_export[i] = ft_strdup(str);
+	free_array(g_ms.export);
+	g_ms.export = new_export;
 }
 
-int	check_env(char *str)
+int	export_pos(char *str, char *export)
 {
-	char	*head;
+	int		pos;
+	char	*tmp;
 
-	head = ft_strchr(str, '=');
-	if (!head)
-		return (FALSE);
-	if (head == str)
-		return (FALSE);
-	while (*str)
+	pos = 0;
+	while (export[pos] && export[pos] != '=')
+		pos++;
+	tmp = ft_substr(export, 0, pos);
+	if (ft_strcmp(tmp, str))
 	{
-		if (is_whitespace(*str))
-			return (FALSE);
-		str++;
+		free (tmp);
+		return (TRUE);
 	}
-	return (TRUE);
+	free (tmp);
+	return (FALSE);
 }
 
 void	add_env(char *str)
@@ -59,55 +68,37 @@ void	add_env(char *str)
 	g_ms.env = new_env;
 }
 
-int	is_include(char *str)
+void	add_export_env(char **input)
 {
-	int		i;
-	int		j;
-	char	**env;
+	int		pos_env;
+	int		pos_export;
 
-	i = 0;
-	env = g_ms.env;
-	while (env[i])
+	if (check_env(*input))
 	{
-		j = 0;
-		while (env[i][j] && str[j])
-		{
-			if (str[j] == '=' && env[i][j] == '=')
-				return (i);
-			if (str[j] != env[i][j])
-				break ;
-			j++;
-		}
-		i++;
+		pos_env = is_include_env(*input);
+		pos_export = is_include_export(*input);
+		if (pos_env != -1)
+			swap_env(pos_env, *input);
+		if (pos_export != -1)
+			swap_export(pos_export, *input);
+		if (pos_env == -1)
+			add_env(*input);
+		if (pos_export == -1)
+			add_export(*input);
 	}
-	return (-1);
 }
 
 void	builtin_export(char **input)
 {
-	int		pos;
-	char	*tmp;
-
 	input++;
 	if (!*input)
 		print_export();
 	while (*input)
 	{
-		if (check_env(*input))
-		{
-			pos = is_include(*input);
-			if (pos != -1)
-			{
-				tmp = g_ms.env[pos];
-				g_ms.env[pos] = ft_strdup(*input);
-				free(tmp);
-			}
-			else
-				add_env(*input);
-		}
+		add_export_env(input);
 		input++;
 	}
 	set_paths();
-	if (!is_parent())
+	if (is_child())
 		exit (EXIT_SUCCESS);
 }

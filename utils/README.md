@@ -60,3 +60,9 @@
 **func get_input-->**  "get_input" fonksiyonu main fonksiyonunda readline( ) fonksiyonu kullanarak kullanıcıdan input almamızı sağlar. Write fonksiyonuna girdiğimiz değerler bash in foreground ve background rengini belirler.
 
 <br />
+
+## child_process.c
+
+**func child_process-->**  "child_process" fonksiyonunda fork() fonksiyonunu kullanırız. fork() fonksiyonu child process için 0 değerini döndürür. Main fonksiyonunda init_app() fonksiyonunda child processin process idsini kullanarak çalışan processin child veya parent olduğunu ayırt etmemize yarar. 
+
+<br />

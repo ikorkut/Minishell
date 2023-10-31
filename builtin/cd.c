@@ -6,7 +6,7 @@
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:36:46 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/26 20:36:47 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/10/29 17:27:55 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	builtin_cd(char **input)
 		}
 	}
 	set_pwd();
-	if (!is_parent())
+	if (is_child())
 	{
 		exit (errno);
 	}
