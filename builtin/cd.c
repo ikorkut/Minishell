@@ -6,7 +6,7 @@
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:36:46 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/29 17:27:55 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/10/31 17:44:19 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,40 @@ void	set_pwd(void)
 	change_pwd(g_ms.env, getcwd(NULL, 0), "PWD=");
 }
 
+void	check_tilde(char *input, char *home)
+{
+	char	**temp;
+	int		i;
+
+	i = 0;
+	temp = ft_split(input, '/');
+	if (home && *home)
+	{
+		if (chdir(home))
+			perror("minishell ");
+	}
+	while (temp[i])
+	{
+		i++;
+		if (!temp[i])
+			break ;
+		if (chdir(temp[i]) != 0)
+		{
+			errno = 1;
+			write(2, "minishell : No such file or directory\n", 38);
+			strerror(errno);
+		}
+	}
+	free_array(temp);
+}
+
 void	builtin_cd(char **input)
 {
 	char	*home;
 
-	if (input[1] == NULL || ft_strchr(input[1], '~'))
+	home = getenv("HOME");
+	if (input[1] == NULL)
 	{
-		home = getenv("HOME");
 		if (home && *home)
 		{
 			if (chdir(home))
@@ -58,7 +85,9 @@ void	builtin_cd(char **input)
 	}
 	else
 	{
-		if (chdir(input[1]) != 0)
+		if (input[1][0] == '~')
+			check_tilde(input[1], home);
+		else if (chdir(input[1]) != 0)
 		{
 			errno = 1;
 			write(2, "minishell : No such file or directory\n", 38);
@@ -67,7 +96,5 @@ void	builtin_cd(char **input)
 	}
 	set_pwd();
 	if (is_child())
-	{
 		exit (errno);
-	}
 }
