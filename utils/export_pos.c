@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   export_pos.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/02 16:31:08 by egokeri           #+#    #+#             */
-/*   Updated: 2023/11/02 16:32:07 by egokeri          ###   ########.fr       */
+/*   Created: 2023/11/02 16:13:22 by egokeri           #+#    #+#             */
+/*   Updated: 2023/11/02 16:14:13 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_isalpha(int c)
+int	export_pos(char *str, char *export)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	return (0);
-}
+	int		pos;
+	char	*tmp;
 
-int	ft_isalnum(int c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9'))
-		return (1);
-	return (0);
+	pos = 0;
+	while (export[pos] && export[pos] != '=')
+		pos++;
+	tmp = ft_substr(export, 0, pos);
+	if (ft_strcmp(tmp, str))
+	{
+		free (tmp);
+		return (TRUE);
+	}
+	free (tmp);
+	return (FALSE);
 }

@@ -6,7 +6,7 @@
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:37:24 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/26 20:37:25 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/11/02 18:10:02 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	run_cmd(t_process *process)
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		cmd_route(process);
-		run_builtin(process->execute);
 		path = get_path(process->execute[0]);
 		execve(path, process->execute, g_ms.env);
 		command_err(process->execute[0]);

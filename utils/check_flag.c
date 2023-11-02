@@ -6,7 +6,7 @@
 /*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 12:40:41 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/28 16:41:19 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/11/02 16:13:38 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	check_flag(void)
 {
 	if (g_ms.check_flag == 1)
 	{
-		errno = 4;
 		errno = 1;
 		g_ms.check_flag = 0;
 	}

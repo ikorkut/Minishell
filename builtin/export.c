@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikorkut <ikorkut@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:37:04 by egokeri           #+#    #+#             */
-/*   Updated: 2023/11/02 15:26:25 by ikorkut          ###   ########.fr       */
+/*   Updated: 2023/11/02 17:23:28 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,6 @@ void	add_export(char *str)
 	g_ms.export = new_export;
 }
 
-int	export_pos(char *str, char *export)
-{
-	int		pos;
-	char	*tmp;
-
-	pos = 0;
-	while (export[pos] && export[pos] != '=')
-		pos++;
-	tmp = ft_substr(export, 0, pos);
-	if (ft_strcmp(tmp, str))
-	{
-		free (tmp);
-		return (TRUE);
-	}
-	free (tmp);
-	return (FALSE);
-}
-
 void	add_env(char *str)
 {
 	int		i;
@@ -68,6 +50,30 @@ void	add_env(char *str)
 	g_ms.env = new_env;
 }
 
+void	export_env_check_char(int pos_env, int pos_export, char *input)
+{
+	if (pos_env == -1)
+	{
+		if (export_check_char(input))
+			add_env(input);
+		else
+		{
+			export_err(input);
+			return ;
+		}
+	}
+	if (pos_export == -1)
+	{
+		if (export_check_char(input))
+			add_export(input);
+		else
+		{
+			export_err(input);
+			return ;
+		}
+	}
+}
+
 void	add_export_env(char **input)
 {
 	int		pos_env;
@@ -81,26 +87,7 @@ void	add_export_env(char **input)
 			swap_env(pos_env, *input);
 		if (pos_export != -1)
 			swap_export(pos_export, *input);
-		if (pos_env == -1)
-		{
-			if (export_check_char(*input))
-				add_env(*input);
-			else
-			{
-				export_err(*input);
-				return ;
-			}
-		}
-		if (pos_export == -1)
-		{
-			if (export_check_char(*input))
-				add_export(*input);
-			else
-			{
-				export_err(*input);
-				return ;
-			}
-		}
+		export_env_check_char(pos_env, pos_export, *input);
 	}
 }
 

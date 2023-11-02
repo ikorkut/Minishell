@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_export_check.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ikorkut <ikorkut@student.42.fr>            +#+  +:+       +#+        */
+/*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 12:46:38 by egokeri           #+#    #+#             */
-/*   Updated: 2023/11/02 15:08:42 by ikorkut          ###   ########.fr       */
+/*   Updated: 2023/11/02 19:27:11 by egokeri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,20 @@ int	check_export(char *str)
 	return (TRUE);
 }
 
-int export_check_char(char *str)
+int	export_check_char(char *str)
 {
-	int	i = 1;
-	
-	if(!ft_isalpha(str[0]))
-		return FALSE;
-	while(str[i])
+	int	i;
+
+	i = 1;
+	if (!ft_isalpha(str[0]))
+		return (FALSE);
+	while (str[i] && str[i] != '=')
 	{
-		if(!ft_isalnum(str[i]))
-			return FALSE;
+		if (!ft_isalnum(str[i]))
+			return (FALSE);
 		i++;
 	}
-	return	TRUE;
+	return (TRUE);
 }
 
 int	check_env(char *str)
@@ -50,11 +51,10 @@ int	check_env(char *str)
 	{
 		if (check_export(str))
 		{
-			if(export_check_char(str))
+			if (export_check_char(str))
 				add_export(str);
 			else
 				export_err(str);
-				
 		}
 		return (FALSE);
 	}
