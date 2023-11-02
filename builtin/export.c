@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ikorkut <ikorkut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:37:04 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/31 12:50:21 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/11/02 15:26:25 by ikorkut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,25 @@ void	add_export_env(char **input)
 		if (pos_export != -1)
 			swap_export(pos_export, *input);
 		if (pos_env == -1)
-			add_env(*input);
+		{
+			if (export_check_char(*input))
+				add_env(*input);
+			else
+			{
+				export_err(*input);
+				return ;
+			}
+		}
 		if (pos_export == -1)
-			add_export(*input);
+		{
+			if (export_check_char(*input))
+				add_export(*input);
+			else
+			{
+				export_err(*input);
+				return ;
+			}
+		}
 	}
 }
 

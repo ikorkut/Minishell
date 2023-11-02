@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ikorkut <ikorkut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:37:30 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/29 17:30:04 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/11/02 15:15:52 by ikorkut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,14 @@ void	no_file_err(char *str)
 	write(2, "minishell: ", 11);
 	write(2, str, ft_strlen(str));
 	write(2, ": No such file or directory\n", 28);
+	if (is_child())
+		exit(errno);
+}
+
+void	export_err(char *str)
+{
+	printf(" \"%s\" : not a valid identifier\n", str);
+	errno = 1;
 	if (is_child())
 		exit(errno);
 }

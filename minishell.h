@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egokeri <egokeri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ikorkut <ikorkut@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 20:40:55 by egokeri           #+#    #+#             */
-/*   Updated: 2023/10/31 17:40:07 by egokeri          ###   ########.fr       */
+/*   Updated: 2023/11/02 14:36:02 by ikorkut          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ char		*get_input(void);
 void		builtin_pwd(void);
 void		input(char *file);
 void		builtin_env(void);
+int			ft_isalpha(int c);
+int			ft_isalnum(int c);
 char		*dollar(char *str);
 void		free_process(void);
 void		close_all_fd(void);
@@ -119,6 +121,7 @@ char		*get_path(char *cmd);
 int			check_env(char *str);
 int			is_whitespace(char c);
 void		add_export(char *str);
+void		export_err(char *str);
 void		command_err(char *str);
 void		free_array(char **arr);
 void		set_export(char **env);
@@ -144,6 +147,7 @@ void		run_cmd(t_process *process);
 int			is_include_export(char *str);
 void		output(char *file, int mode);
 void		builtin_export(char **input);
+int			export_check_char(char *str);
 void		swap_env(int pos, char *input);
 void		parse_token_string(char **str);
 void		heredoc(int *fd, char *endline);
